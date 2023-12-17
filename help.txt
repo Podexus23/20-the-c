@@ -1,0 +1,4 @@
+To compile programm run: 
+$ gcc [programName].c -o programName
+to run programm:
+$ ./sampleProgram
