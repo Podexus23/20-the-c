@@ -14,8 +14,16 @@ int main()
 
   while ((line = getLine(strArr, MAXLINE)) > 0)
   {
-    printf("%s \n", strArr);
+    if (strArr[0] == '\0' && line == 1)
+    {
+      printf("%s", strArr);
+    }
+    else
+    {
+      printf("%s \n", strArr);
+    }
   }
+  printf("line: %d", line);
   return 0;
 }
 
@@ -50,5 +58,7 @@ int getLine(char arr[], int lim)
     }
   }
   arr[i] = '\0';
+  if (i == 0 && blank == 1)
+    ++i;
   return i;
 }
