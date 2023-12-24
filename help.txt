@@ -3,6 +3,13 @@ $ gcc [programName].c -o programName
 to run programm:
 $ ./sampleProgram
 
+Conversion:
+(type-name) expression 
+
 <ctype.h>
 tolower(int || char) return lowercase value
 toupper(int || char) return uppercase value
+
+gcc ... -lm (to use pow)
+<math.h>
+double pow(double x, double y) x power y
