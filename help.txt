@@ -13,3 +13,6 @@ toupper(int || char) return uppercase value
 gcc ... -lm (to use pow)
 <math.h>
 double pow(double x, double y) x power y
+
+put string in array
+char pattern[] = "ould";
