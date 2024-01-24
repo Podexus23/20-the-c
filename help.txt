@@ -1,18 +1,22 @@
 To compile programm run: 
-$ gcc [programName].c -o programName
+  $ gcc programName.c -o programName
 to run programm:
-$ ./sampleProgram
+  $ ./programName
 
 Conversion:
-(type-name) expression 
+  (type-name) expression 
+
+stdio.h
+  getchar() read a character from stdin
 
 <ctype.h>
-tolower(int || char) return lowercase value
-toupper(int || char) return uppercase value
+  tolower(int || char) return lowercase value
+  toupper(int || char) return uppercase value
 
 gcc ... -lm (to use pow)
+
 <math.h>
-double pow(double x, double y) x power y
+  double pow(double x, double y) x power y
 
 put string in array
-char pattern[] = "ould";
+  char pattern[] = "ould";
