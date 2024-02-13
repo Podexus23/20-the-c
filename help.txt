@@ -18,5 +18,8 @@ gcc ... -lm (to use pow)
 <math.h>
   double pow(double x, double y) x power y
 
+<stdlib.h>
+double atof(char []) get a number from string
+
 put string in array
   char pattern[] = "ould";
