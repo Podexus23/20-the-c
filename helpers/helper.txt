@@ -2,5 +2,6 @@ Types
   int (%d)      --> 123456
   char (%c)     --> "a" || 'a'
   float (%f)    --> 1.58f
+  float (%g)  ? --> 1.58f
   double (%lf)  --> double precision 2312312312.123123
 
