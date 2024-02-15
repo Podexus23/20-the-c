@@ -9,8 +9,7 @@
 
 #define BUFSIZE 100
 
-int side = 1;
-int sp = 0; /* position */
+int sp = 0;         /* position */
 double val[MAXVAL]; /* stack */
 
 char buf[BUFSIZE];
@@ -22,8 +21,8 @@ double pop(void);
 int getch(void);
 void ungetch(int c);
 
-
-int main () {
+int main()
+{
   int type;
   double op1, op2, rem, res;
   char s[MAXOP];
@@ -47,83 +46,113 @@ int main () {
       break;
     case '/':
       op2 = pop();
-      if(op2 != 0.0) push(pop() / op2);
-      else printf("Error: trying to divide by 0");
+      if (op2 != 0.0)
+        push(pop() / op2);
+      else
+        printf("Error: trying to divide by 0");
       break;
     case '%':
       op2 = pop();
       op1 = pop();
-      if(op2 > op1) push(op1);
-      else {
+      if (op2 > op1)
+        push(op1);
+      else
+      {
         res = op1 / op2;
         push(op1 - (op2 * (int)res));
       }
       break;
-    case '\n': 
+    case '\n':
       printf("\t%.8g\n", pop());
       break;
     default:
-    printf("Error: unknown operatios %s\n", s);
+      printf("Error: unknown operatios %s\n", s);
       break;
     }
   }
   return 0;
 }
 
-void push(double f){
-  if(sp < MAXVAL){
+void push(double f)
+{
+  if (sp < MAXVAL)
+  {
     val[sp++] = f;
   }
-  else printf("Error: stack is full, %g not pushable\n", f);
+  else
+    printf("Error: stack is full, %g not pushable\n", f);
 }
 
-double pop(void) {
-  if(sp > 0) {
+double pop(void)
+{
+  if (sp > 0)
+  {
     return val[--sp];
   }
-  else {
+  else
+  {
     printf("Error: stack is empty\n");
     return 0.0;
   }
 }
 
-int getop(char s[]) {
-    int i, c;
+int getop(char s[])
+{
+  int i, c;
 
-
-  while((s[0] = c = getch()) == ' ' || c == '\t'){
+  4 6 while ((s[0] = c = getch()) == ' ' || c == '\t')
+  {
     ;
   }
 
   s[1] = '\0';
-  if(!isdigit(c) && c != '.') return c;
   i = 0;
-  side = 1;
-  if(c == '-'){
-    s[i++] = c;
-  }
-  if(isdigit(c)){
-    while(isdigit(s[++i] = c = getch()));
-  }
-  if(c == '.'){
-    while(isdigit(s[++i] = c = getch()));
 
+  if (c == '-')
+  {
+    c = getch();
+    if (!isdigit(c) && c != '.')
+    {
+      ungetch(c);
+      return '-';
+    }
+    s[++i] = c;
+  }
+
+  if (!isdigit(c) && c != '.')
+    return c;
+
+  if (isdigit(c))
+  {
+    while (isdigit(s[++i] = c = getch()))
+      ;
+  }
+  if (c == '.')
+  {
+    while (isdigit(s[++i] = c = getch()))
+      ;
   }
   s[i] = '\0';
   printf("The number %s\n", s);
-  if(c != EOF){
+  if (c != EOF)
+  {
     ungetch(c);
   }
+
   return NUMBER;
 }
 
-int getch(void){
+int getch(void)
+{
   return (bufp > 0) ? buf[--bufp] : getchar();
 }
 
-void ungetch(int c){
-  if(bufp >=  BUFSIZE){
+void ungetch(int c)
+{
+  if (bufp >= BUFSIZE)
+  {
     printf("ungetch: too much symbols\n");
   }
-  else buf[bufp++] = c;
+  else
+    buf[bufp++] = c;
 }
