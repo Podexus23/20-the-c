@@ -1,3 +1,10 @@
+/*
+  to add:
+    do multiple operations
+    save results and do more operations
+    check for wrong operations as dividing by 0
+*/
+
 #include <stdio.h>
 
 int main(int argc, char *argv[])
