@@ -4,9 +4,7 @@
   Implement functionality to add, remove, and display elements of the array.
  */
 
-// add elements
-// remove elements
-// display elements
+// add commands from console
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -15,7 +13,7 @@ int length = SIZE;
 
 void print_arr(int *arr);
 void add_el(int *arr, int el);
-void remove_el(int *arr, int el);
+int *remove_el(int *arr, int el);
 
 int main(int argc, char **argv)
 {
@@ -27,6 +25,13 @@ int main(int argc, char **argv)
     exit(1);
   }
 
+  for (int i = 0; i < length; i++)
+    arr[i] = (i + 1) * 5;
+
+  add_el(arr, 156);
+  add_el(arr, 23);
+  arr = remove_el(arr, 10);
+
   print_arr(arr);
 
   return 0;
@@ -36,7 +41,7 @@ void print_arr(int *arr)
 {
   for (int i = 0; i < length; i++)
   {
-    printf("Arr[%d]: %d\n", i, arr[length]);
+    printf("Arr[%d]: %d\n", i, arr[i]);
   }
 }
 
@@ -51,7 +56,7 @@ void add_el(int *arr, int el)
   arr[length - 1] = el;
 }
 
-void remove_el(int *arr, int el)
+int *remove_el(int *arr, int el)
 {
   int n = -1;
   for (int i = 0; i < length; i++)
@@ -68,9 +73,13 @@ void remove_el(int *arr, int el)
     {
       if (i == n)
         i++;
+      // printf("Arr i: %d", arr[i]);
       new_arr[j] = arr[i];
+      // printf("Arr j: %d", arr[j]);
     }
     free(arr);
+    length--;
     arr = new_arr;
   }
+  return arr;
 }
