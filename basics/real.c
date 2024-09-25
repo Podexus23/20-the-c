@@ -7,32 +7,47 @@
 // add commands from console
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define SIZE 10
 int length = SIZE;
 
 void print_arr(int *arr);
-void add_el(int *arr, int el);
+int *add_el(int *arr, int el);
 int *remove_el(int *arr, int el);
 
 int main(int argc, char **argv)
 {
-
   int *arr = malloc(sizeof(int) * length);
   if (!arr)
   {
     printf("Sorry not enough space for this");
     exit(1);
   }
+  char comm[100] = "start";
+  int el;
 
   for (int i = 0; i < length; i++)
     arr[i] = (i + 1) * 5;
 
-  add_el(arr, 156);
-  add_el(arr, 23);
-  arr = remove_el(arr, 10);
+  do
+  {
+    printf("add, remove or print array\n");
+    printf("to close programm write end command\n");
+    scanf("%s %d", comm, &el);
+    if (strcmp(comm, "add") == 0)
+      arr = add_el(arr, el);
+    if (strcmp(comm, "pr") == 0)
+      print_arr(arr);
+    if (strcmp(comm, "rm") == 0)
+      arr = remove_el(arr, el);
 
-  print_arr(arr);
+  } while (strcmp(comm, "end") != 0);
+
+  // add_el(arr, 23);
+  //
+
+  // print_arr(arr);
 
   return 0;
 }
@@ -40,12 +55,13 @@ int main(int argc, char **argv)
 void print_arr(int *arr)
 {
   for (int i = 0; i < length; i++)
-  {
-    printf("Arr[%d]: %d\n", i, arr[i]);
-  }
+    printf(" %d |", arr[i]);
+  // printf("Arr[%d]: %d\n", i, arr[i]);
+
+  printf("\n");
 }
 
-void add_el(int *arr, int el)
+int *add_el(int *arr, int el)
 {
   arr = realloc(arr, sizeof(int) * (++length));
   if (!arr)
@@ -54,6 +70,7 @@ void add_el(int *arr, int el)
     exit(1);
   }
   arr[length - 1] = el;
+  return arr;
 }
 
 int *remove_el(int *arr, int el)
@@ -73,9 +90,7 @@ int *remove_el(int *arr, int el)
     {
       if (i == n)
         i++;
-      // printf("Arr i: %d", arr[i]);
       new_arr[j] = arr[i];
-      // printf("Arr j: %d", arr[j]);
     }
     free(arr);
     length--;
