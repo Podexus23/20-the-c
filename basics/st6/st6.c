@@ -20,6 +20,8 @@ Create a to-do list application where the user can add, delete, or modify tasks.
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_SIZE 10
+
 struct task
 {
   int id;
@@ -27,7 +29,9 @@ struct task
 };
 
 int save(char *filename, struct task *p, int n);
+int save_f(char *filename, struct task *p, int n);
 int load(char *filename);
+int load_f(char *filename);
 
 int main(void)
 {
@@ -40,9 +44,23 @@ int main(void)
           {3, "finish the 7th task\n"}};
   int n = sizeof(tasks) / sizeof(tasks[0]);
 
-  save(filename, tasks, n);
-  load(filename);
+  save_f(filename, tasks, n);
+  load_f(filename);
 
+  return 0;
+}
+
+int save_f(char *filename, struct task *p, int n)
+{
+  FILE *fp = fopen(filename, "w");
+
+  if (!fp)
+  {
+    printf("Error occured while oppening\n");
+    return 1;
+  }
+  int res = fwrite(p, sizeof(struct task), n, fp);
+  fclose(fp);
   return 0;
 }
 
@@ -70,6 +88,30 @@ int save(char *filename, struct task *p, int n)
     putc(*c, fp);
     c++;
   }
+  fclose(fp);
+  return 0;
+}
+
+int load_f(char *filename)
+{
+  int n = MAX_SIZE;
+  struct task tasks_f[n];
+  FILE *fp = fopen(filename, "r");
+
+  if (!fp)
+  {
+    printf("Error occured while opening file\n");
+    return 1;
+  }
+  int res = fread(tasks_f, sizeof(struct task), MAX_SIZE, fp);
+  printf("Tasks:\n");
+
+  for (int i = 0; i < res; i++)
+  {
+    printf("%d. %s \n", (tasks_f + i)->id, (tasks_f + i)->task);
+  }
+  printf("res: %d", res);
+
   fclose(fp);
   return 0;
 }
