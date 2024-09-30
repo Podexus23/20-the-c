@@ -24,17 +24,18 @@ tic tac toe
 
 make field+
 renew field+
+show moves+
+make moves+
 
 make players
-make moves
-show moves
 check for win cindition
 congrats player on win
 or show draw
 */
 
 /*
-
+BUGS
+player can take already checked place
 */
 
 #include <stdio.h>
@@ -43,23 +44,28 @@ or show draw
 
 enum
 {
-  X = 1,
-  O = 2
+  X = 'X',
+  O = 'O'
 };
 
 void print_field(void);
 void clean_field(void);
+void make_field(void);
 
-int make_a_move(void);
+void game_cycle(void);
 
-int field[F_SIZE][F_SIZE] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+int make_a_move(char);
+
+int check_win_condition(void);
+
+char field[F_SIZE][F_SIZE];
 
 int main(void)
 {
-
+  make_field();
   print_field();
-  make_a_move();
-  print_field();
+  game_cycle();
+  // check_win_condition();
 }
 
 void print_field(void)
@@ -70,7 +76,7 @@ void print_field(void)
     for (int j = 0; j < F_SIZE; j++)
     {
 
-      printf("|%d|", field[i][j]);
+      printf("|%c|", field[i][j]);
     }
     printf("\n");
   }
@@ -87,16 +93,80 @@ void clean_field(void)
   }
 }
 
-int make_a_move(void)
+void make_field(void)
+{
+  for (int i = 0; i < F_SIZE; i++)
+  {
+    for (int j = 0; j < F_SIZE; j++)
+    {
+      field[i][j] = '-';
+    }
+  }
+}
+
+int make_a_move(char player_c)
 {
   int x;
   int y;
-  printf("did you wash your ass today? please answer yes(y) or no(n)\n");
+  printf("Please enter coordsto make a move(str row):\n");
   scanf("%d %d", &x, &y);
-  if ((x > F_SIZE && x < 0) || (y > F_SIZE && x < 0))
+  if ((x > F_SIZE || x < 0) || (y > F_SIZE || y < 0))
   {
-    printf("move: sorry wrong coords, try somting more than 0, and less that %d\n", F_SIZE);
+    printf("move: sorry wrong coords, try somting more than 0, and less that %d\n", F_SIZE + 1);
+    return make_a_move(player_c);
   }
-  field[y - 1][x - 1] = 1;
+  field[x - 1][y - 1] = player_c;
+  return 0;
+}
+
+void game_cycle(void)
+{
+  int player_1 = X;
+  int player_2 = O;
+  int main_pl = player_1;
+  int cond = 1;
+  do
+  {
+    make_a_move(main_pl);
+    cond = check_win_condition();
+    if (cond != 0)
+      main_pl = (main_pl == player_1) ? player_2 : player_1;
+    print_field();
+  } while (cond != 0);
+  printf("Congrats player: %c\n", main_pl);
+  /*
+  player 1 make a move
+  if move succesfull change player
+  if not player 1 make a move
+  check for win condition
+  check draw condition
+
+  another player make a move
+  ...
+  if someone win
+  make a cingratulations print
+  */
+}
+
+int check_win_condition(void)
+{
+  printf("checked\n");
+  int beacon;
+  int changed = 0;
+  for (int i = 0; i < F_SIZE; i++)
+  {
+    if (i == 0)
+      beacon = field[0][i];
+    if (field[0][i] == beacon)
+      continue;
+    else
+      changed++;
+  }
+  if (changed > 0)
+  {
+    printf("changed\n");
+    return 1;
+  }
+  printf("check win: won cond!\n");
   return 0;
 }
