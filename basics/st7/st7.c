@@ -155,14 +155,21 @@ int check_win_condition(void)
 {
   printf("checked\n");
 
-  if (vert_check() == 0)
-    return 0;
-  if (horz_check() == 0)
-    return 0;
-  if (diag_down_check() == 0)
-    return 0;
-  if (diag_up_check() == 0)
-    return 0;
+  int (*check_f[])(void) = {vert_check, horz_check, diag_down_check, diag_up_check};
+  int length = sizeof(check_f) / sizeof(check_f[0]);
+
+  for (int i = 0; i < length; i++)
+    if (check_f[i]() == 0)
+      return 0;
+
+  // if (vert_check() == 0)
+  //   return 0;
+  // if (horz_check() == 0)
+  //   return 0;
+  // if (diag_down_check() == 0)
+  //   return 0;
+  // if (diag_up_check() == 0)
+  //   return 0;
   if (draw_check() == 0)
     return 2;
 
